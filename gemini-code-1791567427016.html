@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Trắc Nghiệm - Ms Lê Hằng English</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px 10px;
+            color: #2d3436;
+            position: relative;
+        }
+
+        /* SVG Pattern Background Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100"><text x="10" y="30" font-size="20">⭐</text><text x="50" y="70" font-size="20">🌸</text><text x="70" y="25" font-size="20">☁️</text><text x="15" y="80" font-size="20">🐱</text><text x="60" y="45" font-size="18">🍎</text></svg>');
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 18px;
+            border-radius: 20px;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+        }
+
+        .alert-box {
+            background: #ffeaa7;
+            border: 3px solid #fdcb6e;
+            border-radius: 18px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 0 #e1b12c;
+            color: #d63031;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #6c5ce7;
+            border-bottom: 3px dashed #a29bfe;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Reading / Poster Box Style */
+        .reading-box {
+            background: #f8f9fa;
+            border: 3px solid #74b9ff;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: #2d3436;
+            box-shadow: 0 6px 0 #0984e3;
+        }
+
+        .ad-poster {
+            background: #eccc6822;
+            border: 3px dashed #e67e22;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .ad-poster h3 {
+            color: #d35400;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .ad-poster ul {
+            list-style: none;
+            text-align: left;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .ad-poster li {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 3px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 0 #ccc;
+            transition: transform 0.2s;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-option {
+            background: #f1f2f6;
+            border: 2px solid #ced6e0;
+            border-radius: 16px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2f3542;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: 0 5px 0 #a4b0be;
+            transition: all 0.15s ease;
+            outline: none;
+        }
+
+        .btn-option:hover:not([disabled]) {
+            transform: translateY(-2px) scale(1.02);
+            background: #dfe4ea;
+        }
+
+        .btn-option:active:not([disabled]) {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #a4b0be;
+        }
+
+        .btn-option.correct {
+            background-color: #00D26A !important;
+            color: #fff !important;
+            border-color: #00b853 !important;
+            box-shadow: 0 5px 0 #00863d !important;
+        }
+
+        .btn-option.wrong {
+            background-color: #FF4757 !important;
+            color: #fff !important;
+            border-color: #ff2e44 !important;
+            box-shadow: 0 5px 0 #c0392b !important;
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 15px;
+            background: #fff8e7;
+            border: 2px dashed #f39c12;
+            border-radius: 16px;
+            padding: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #2f3542;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation-title {
+            font-weight: 800;
+            color: #e67e22;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin: 30px 0 50px;
+        }
+
+        .btn-submit {
+            background: #ff4757;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 800;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 8px 0 #d63031;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #d63031;
+        }
+
+        .btn-submit:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #d63031;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 28px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-score {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #6c5ce7;
+            margin: 15px 0;
+        }
+
+        .modal-feedback {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3436;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-close {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 20px;
+            box-shadow: 0 5px 0 #00863d;
+            cursor: pointer;
+        }
+
+        u {
+            text-decoration: underline;
+            text-decoration-color: #ff4757;
+            text-decoration-thickness: 3px;
+            color: #d63031;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-container">
+        <div class="header-title">Giáo viên tạo: Ms Lê Hằng English</div>
+    </div>
+
+    <div class="alert-box">
+        ⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️<br>
+        Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+        Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+        <strong>Kéo tới đâu, làm tới đó! *</strong>
+    </div>
+
+    <!-- PHẦN I: TRẮC NGHIỆM -->
+    <div class="section-card">
+        <div class="section-title">I. TRẮC NGHIỆM (Time limited: 45 minutes)</div>
+        
+        <!-- Các câu 1 - 8 -->
+        <div id="quiz-part1-1"></div>
+
+        <!-- BẢNG QUẢNG CÁO CHO CÂU 9-11 -->
+        <div class="ad-poster">
+            <h3>🔔 Help Reduce Your Carbon Footprint! Recycle now! 🔔</h3>
+            <p><strong>WHY?</strong></p>
+            <ul>
+                <li>• Recycling glass reduces (9) ________ waste.</li>
+                <li>• Reusing glass means less landfill waste.</li>
+            </ul>
+            <p><strong>HOW?</strong></p>
+            <ul>
+                <li>• Bring your glass bottles and jars (10) ________ our recycling center.</li>
+                <li>• Clean up your glass items before dropping them off.</li>
+                <li>• Get rewarded! Earn (11) ________ small money reward for every kilogram of glass recycle.</li>
+            </ul>
+            <p><strong>Let's work together for a greener future!</strong></p>
+        </div>
+
+        <!-- Các câu 9 - 18 -->
+        <div id="quiz-part1-2"></div>
+
+        <!-- BÀI ĐỌC ĐIỀN TỪ 19-23 -->
+        <div class="reading-box">
+            <strong>Read the following passage and mark the letter A, B, C, or D to indicate the correct word or phrase that best fits each of the numbered blanks.</strong><br><br>
+            The world is experiencing the negative impacts of climate change, largely due to our reliance (19) ________ fossil fuels and unsustainable habits. Green living offers a path to reduce these effects by adopting a more sustainable lifestyle (20) ________ is a necessary practice to ensure the health of our planet and future generations.<br>
+            As you walkthrough the rooms of your home or visit your local market, you may notice (21) ________ increasing number of eco-friendly (22) ________ to traditional products and practices.<br>
+            From planting your own food in your yard to discovering the benefits of electric cars, there are a variety of ways for you to have a greener, more sustainable way of living.<br>
+            Starting green living begins with becoming aware of your consumption habits, from the food you eat to the clothes you wear, and (23) ________ a conscious effort to reduce waste and choose eco-friendly options.<br>
+            Joining a community of individuals who share the same interests can provide inspiration, support, and practical tips for making sustainable choices.<br>
+            <em style="font-size: 0.85rem; color: #636e72;">Source: https://www.greenhive.io/blog/green-living</em>
+        </div>
+
+        <!-- Các câu 19 - 23 -->
+        <div id="quiz-part1-3"></div>
+
+        <!-- BÀI ĐỌC HIỂU 24-28 (ĐÃ ĐƯỢC BỔ SUNG ĐẦY ĐỦ 100%) -->
+        <div class="reading-box">
+            <strong>Read the following passage and mark the letter A, B, C or D to indicate the correct answer to each of the questions.</strong><br><br>
+            Many people go through life only thinking about their own well-being and that of those around them. In reality, the well-being of the environment is just as important in certain ways. Without a healthy and sustainable environment, their own health and ability to leave behind a sustainable planet to those who live after them is negatively affected. Therefore, two main environmental benefits can be realised with greener living.<br><br>
+            <u>Firstly</u>, people can conserve natural resources. The natural resources that man has been enjoying are beginning to disappear. Due to population growth, it is estimated that the use of natural resources has more than tripled since 1970. At that rate, it is not difficult to see how these same resources will eventually become <strong><u>depleted</u></strong>. It is important to conserve those precious resources so that others after this generation can enjoy the same quality of living on this planet.<br><br>
+            <u>Secondly</u>, people can reduce the harmful effects of climate change. Primarily due to human's reliance on fossil fuels over the years, climate change is a real concern. People continue to release carbon dioxide into the atmosphere, further polluting the air. <strong><u>This</u></strong> is leading to dramatic changes in temperatures that need to be stopped. Greener living aims to do exactly that. For every person who makes an effort to reduce his or her carbon footprint in the world, climate change can begin to become less of a concern over time.<br><br>
+            <em style="font-size: 0.85rem; color: #636e72;">Adapted from: https://planetrenewed.com/why-is-green-living-so-important-we-find-out</em>
+        </div>
+
+        <!-- Các câu 24 - 28 -->
+        <div id="quiz-part1-4"></div>
+    </div>
+
+    <!-- PHẦN II: TỰ LUẬN -->
+    <div class="section-card">
+        <div class="section-title">II. TỰ LUẬN (Chuyển đổi thành Trắc nghiệm ABCD)</div>
+        <div id="quiz-part2"></div>
+    </div>
+
+    <div class="submit-container">
+        <button class="btn-submit" onclick="submitExam()">NỘP BÀI THI</button>
+    </div>
+</div>
+
+<!-- Modal KẾT QUẢ -->
+<div class="modal-overlay" id="resultModal">
+    <div class="modal-content">
+        <h2>🎉 KẾT QUẢ BÀI THI 🎉</h2>
+        <div class="modal-score" id="scoreText">0 / 0</div>
+        <div class="modal-feedback" id="feedbackText"></div>
+        <button class="btn-close" onclick="closeModal()">Đóng & Xem Lại</button>
+    </div>
+</div>
+
+<script>
+    // Sound Effects Web Audio API
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new AudioContext();
+        }
+    }
+
+    function playSound(type) {
+        initAudio();
+        if (!audioCtx) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.5);
+        } else {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+    }
+
+    // Shuffle Array Function
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    // ALL QUESTIONS DATA
+    const questionsGroup1 = [
+        {
+            id: "p1_q1",
+            text: "Question 1: Find the word which has a different sound in the part underlined.",
+            options: [
+                { key: "A", text: "announc<u>ed</u>" },
+                { key: "B", text: "evaluat<u>ed</u>" },
+                { key: "C", text: "enunciat<u>ed</u>" },
+                { key: "D", text: "demand<u>ed</u>" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích phát âm đuôi -ed:</strong><br>
+                - A. announc<u>ed</u>: /əˈnaʊnst/ (đuôi -ed phát âm là /t/)<br>
+                - B. evaluat<u>ed</u>: /ɪˈvæl.ju.eɪ.tɪd/ (đuôi -ed phát âm là /ɪd/)<br>
+                - C. enunciat<u>ed</u>: /ɪˈnʌn.si.eɪ.tɪd/ (đuôi -ed phát âm là /ɪd/)<br>
+                - D. demand<u>ed</u>: /dɪˈmɑːn.dɪd/ (đuôi -ed phát âm là /ɪd/)<br>
+                <strong>Dịch nghĩa:</strong> announced (thông báo), evaluated (đánh giá), enunciated (phát âm rõ), demanded (yêu cầu).<br>
+                <strong>Tại sao chọn A?</strong> Âm -ed của 'announced' là /t/, khác với 3 từ còn lại phát âm là /ɪd/.
+            `
+        },
+        {
+            id: "p1_q2",
+            text: "Question 2: Find the word which has a different sound in the part underlined.",
+            options: [
+                { key: "A", text: "l<u>i</u>tter" },
+                { key: "B", text: "<u>i</u>ssue" },
+                { key: "C", text: "dev<u>i</u>ce" },
+                { key: "D", text: "p<u>i</u>ck" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích phát âm nguyên âm 'i':</strong><br>
+                - A. l<u>i</u>tter: /ˈlɪt.ər/ (phát âm là /ɪ/)<br>
+                - B. <u>i</u>ssue: /ˈɪʃ.uː/ (phát âm là /ɪ/)<br>
+                - C. dev<u>i</u>ce: /dɪˈvaɪs/ (phát âm là /aɪ/)<br>
+                - D. p<u>i</u>ck: /pɪk/ (phát âm là /ɪ/)<br>
+                <strong>Dịch nghĩa:</strong> litter (rác thải), issue (vấn đề), device (thiết bị), pick (nhặt).<br>
+                <strong>Tại sao chọn C?</strong> 'i' trong 'device' đọc là /aɪ/, khác với /ɪ/ ở các đáp án khác.
+            `
+        },
+        {
+            id: "p1_q3",
+            text: "Question 3: In the UK, poor air quality is responsible ______ some 40,000 deaths each year.",
+            options: [
+                { key: "A", text: "to" },
+                { key: "B", text: "for" },
+                { key: "C", text: "in" },
+                { key: "D", text: "with" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích ngữ pháp:</strong><br>
+                - Cấu trúc: <em>be responsible for something</em> (chịu trách nhiệm cho/là nguyên nhân cho cái gì).<br>
+                - A. to: tới | B. for: cho | C. in: trong | D. with: với<br>
+                <strong>Dịch nghĩa:</strong> "Ở Anh, chất lượng không khí kém là nguyên nhân gây ra khoảng 40.000 ca tử vong mỗi năm."
+            `
+        },
+        {
+            id: "p1_q4",
+            text: "Question 4: Using energy-efficient ______ appliances can help protect the environment and save money.",
+            options: [
+                { key: "A", text: "electricity" },
+                { key: "B", text: "electric" },
+                { key: "C", text: "electrify" },
+                { key: "D", text: "electrical" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích từ loại:</strong><br>
+                - A. electricity (n): điện năng.<br>
+                - B. electric (adj): thuộc điện (đi với động cơ/xe).<br>
+                - C. electrify (v): điện khí hóa.<br>
+                - D. electrical (adj): thuộc về thiết bị điện gia dụng.<br>
+                <strong>Cụm từ cố định:</strong> <em>electrical appliances</em> (các thiết bị điện gia dụng).<br>
+                <strong>Dịch nghĩa:</strong> "Sử dụng các thiết bị điện tiết kiệm năng lượng có thể giúp bảo vệ môi trường và tiết kiệm tiền."
+            `
+        },
+        {
+            id: "p1_q5",
+            text: "Question 5: Recycling should ______ by everyone to reduce the impact on the environment.",
+            options: [
+                { key: "A", text: "be practised" },
+                { key: "B", text: "practise" },
+                { key: "C", text: "attract" },
+                { key: "D", text: "be attracted" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích bị động:</strong><br>
+                - Chủ ngữ 'Recycling' (sự tái chế) + 'by everyone' -> Cần động từ dạng bị động.<br>
+                - Công thức bị động với modal verb: <em>should + be + V3/ed</em>.<br>
+                - A. be practised: được thực hành/thực hiện.<br>
+                <strong>Dịch nghĩa:</strong> "Tái chế nên được thực hiện bởi tất cả mọi người để giảm tác động lên môi trường."
+            `
+        },
+        {
+            id: "p1_q6",
+            text: "Question 6: I think I ______ my paper and cardboard to help save trees.",
+            options: [
+                { key: "A", text: "recycle" },
+                { key: "B", text: "am going to recycle" },
+                { key: "C", text: "will recycle" },
+                { key: "D", text: "am recycling" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích thì tương lai:</strong><br>
+                - Động từ 'think' thể hiện dự đoán hoặc quyết định bộc phát tại thời điểm nói.<br>
+                - Công thức: <em>I think + S + will + V-bare</em>.<br>
+                - A. recycle (hiện tại) | B. am going to recycle (dự định từ trước) | C. will recycle (sẽ tái chế) | D. am recycling (tiếp diễn).<br>
+                <strong>Dịch nghĩa:</strong> "Tôi nghĩ tôi sẽ tái chế giấy và bìa cứng của mình để giúp cứu cây xanh."
+            `
+        },
+        {
+            id: "p1_q7",
+            text: "Question 7: More people ______ a green lifestyle because it is good for the environment.",
+            options: [
+                { key: "A", text: "adopt" },
+                { key: "B", text: "conclude" },
+                { key: "C", text: "compose" },
+                { key: "D", text: "create" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích Collocation:</strong><br>
+                - Cụm từ chuẩn: <em>adopt a green lifestyle</em> (áp dụng/theo đuổi một lối sống xanh).<br>
+                - A. adopt (v): áp dụng | B. conclude (v): kết luận | C. compose (v): sáng tác | D. create (v): tạo ra.<br>
+                <strong>Dịch nghĩa:</strong> "Ngày càng nhiều người áp dụng lối sống xanh vì nó tốt cho môi trường."
+            `
+        },
+        {
+            id: "p1_q8",
+            text: "Question 8: Household appliances should be ______ to save energy and avoid dangerous situations.",
+            options: [
+                { key: "A", text: "turned off" },
+                { key: "B", text: "turned on" },
+                { key: "C", text: "turned up" },
+                { key: "D", text: "turned down" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích Phrasal Verbs:</strong><br>
+                - A. turned off: tắt.<br>
+                - B. turned on: bật.<br>
+                - C. turned up: vặn to/xuất hiện.<br>
+                - D. turned down: vặn nhỏ/từ chối.<br>
+                <strong>Dịch nghĩa:</strong> "Các thiết bị gia dụng nên được tắt đi để tiết kiệm năng lượng và tránh các tình huống nguy hiểm."
+            `
+        }
+    ];
+
+    const questionsGroup2 = [
+        {
+            id: "p1_q9",
+            text: "Question 9: Recycling glass reduces (9) ______ waste.",
+            options: [
+                { key: "A", text: "house" },
+                { key: "B", text: "household" },
+                { key: "C", text: "housing" },
+                { key: "D", text: "home" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích từ vựng:</strong><br>
+                - Cụm từ: <em>household waste</em> (rác thải sinh hoạt gia đình).<br>
+                - A. house (ngôi nhà) | B. household (hộ gia đình) | C. housing (nhà ở) | D. home (tổ ấm).<br>
+                <strong>Dịch nghĩa:</strong> "Tái chế thủy tinh giúp làm giảm rác thải sinh hoạt."
+            `
+        },
+        {
+            id: "p1_q10",
+            text: "Question 10: Bring your glass bottles and jars (10) ______ our recycling center.",
+            options: [
+                { key: "A", text: "in" },
+                { key: "B", text: "at" },
+                { key: "C", text: "for" },
+                { key: "D", text: "to" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích giới từ:</strong><br>
+                - Cấu trúc: <em>bring something to somewhere</em> (mang cái gì tới đâu).<br>
+                - A. in | B. at | C. for | D. to<br>
+                <strong>Dịch nghĩa:</strong> "Hãy mang các chai và lọ thủy tinh của bạn tới trung tâm tái chế của chúng tôi."
+            `
+        },
+        {
+            id: "p1_q11",
+            text: "Question 11: Earn (11) ______ small money reward for every kilogram of glass recycle.",
+            options: [
+                { key: "A", text: "the" },
+                { key: "B", text: "an" },
+                { key: "C", text: "a" },
+                { key: "D", text: "no article" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích mạo từ:</strong><br>
+                - 'small money reward' là một danh từ đếm được số ít (mới nhắc tới lần đầu) -> Dùng mạo từ không xác định.<br>
+                - Từ 'small' bắt đầu bằng phụ âm /s/ -> Dùng mạo từ <strong>a</strong>.<br>
+                <strong>Dịch nghĩa:</strong> "Nhận một phần thưởng tiền mặt nhỏ cho mỗi kilôgam thủy tinh tái chế."
+            `
+        },
+        {
+            id: "p1_q12",
+            text: `Question 12: Mark the correct arrangement of the sentences:<br>
+            a. Firstly, we should clean up all areas regularly...<br>
+            b. There are three things we can do to improve the environment in our school.<br>
+            c. Secondly, we ought to set up more rubbish bins...<br>
+            d. In conclusion, we can improve the environment...<br>
+            e. Finally, we should plant more trees...`,
+            options: [
+                { key: "A", text: "e - a - d - b - c" },
+                { key: "B", text: "e - b - a - d - c" },
+                { key: "C", text: "e - b - a - c - d" },
+                { key: "D", text: "b - a - c - e - d" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích logic đoạn văn:</strong><br>
+                - b: Câu mở đầu tổng quan ("There are three things...").<br>
+                - a: Ý thứ nhất ("Firstly...").<br>
+                - c: Ý thứ hai ("Secondly...").<br>
+                - e: Ý cuối cùng ("Finally...").<br>
+                - d: Câu kết luận ("In conclusion...").<br>
+                -> Thứ tự đúng: <strong>b - a - c - e - d</strong>.
+            `
+        },
+        {
+            id: "p1_q13",
+            text: `Question 13: Mark the correct arrangement of the sentences:<br>
+            a. Lan: Same here. I started taking short breaks and going for a walk—it really helps.<br>
+            b. Minh: I feel so stressed with all the revision. I can't focus anymore.<br>
+            c. Minh: That sounds good. I'll try that tonight after studying.`,
+            options: [
+                { key: "A", text: "a - c - b" },
+                { key: "B", text: "b - a - c" },
+                { key: "C", text: "b - c - a" },
+                { key: "D", text: "a - b - c" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích hội thoại:</strong><br>
+                - b (Minh mở lời): Nêu vấn đề bị stress khi ôn tập.<br>
+                - a (Lan phản hồi): Đồng cảm và đưa ra lời khuyên đi dạo.<br>
+                - c (Minh tiếp thu): Tiếp nhận lời khuyên và hứa sẽ thử.<br>
+                -> Thứ tự đúng: <strong>b - a - c</strong>.
+            `
+        },
+        {
+            id: "p1_q14",
+            text: `Question 14: Mark the correct arrangement of the letter:<br>
+            Dear Mum,<br>
+            a. It feels like the number of assignments and tests is "unbearable" and makes me anxious most days.<br>
+            b. I miss home and feel under pressure to study, join clubs, and make friends all at once.<br>
+            c. Sometimes, I worry that I am not doing well enough, and it is hurting my focus and happiness.<br>
+            d. Please know that I love this school, but I need your understanding and support so I can manage better.<br>
+            e. I have been here at boarding school for a few months, and the workload is much more intense than I expected.<br>
+            Love, Huy`,
+            options: [
+                { key: "A", text: "b - a - e - d - c" },
+                { key: "B", text: "e - a - b - c - d" },
+                { key: "C", text: "b - e - c - a - d" },
+                { key: "D", text: "b - a - e - c - d" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích bức thư:</strong><br>
+                - e: Mở đầu nêu bối cảnh (vừa ở trường nội trú được vài tháng).<br>
+                - a: Nêu tình trạng bài tập quá nhiều ("unbearable").<br>
+                - b: Nêu cảm xúc nhớ nhà và áp lực học tập.<br>
+                - c: Bày tỏ sự lo lắng của bản thân.<br>
+                - d: Mong mẹ thấu hiểu và hỗ trợ.<br>
+                -> Thứ tự đúng: <strong>e - a - b - c - d</strong>.
+            `
+        },
+        {
+            id: "p1_q15",
+            text: "Question 15 (CLOSEST): It's not difficult to reduce your carbon footprint. You can do it by making your daily activities <u>eco-friendly</u>.",
+            options: [
+                { key: "A", text: "climate-friendly" },
+                { key: "B", text: "unfriendly" },
+                { key: "C", text: "kindly" },
+                { key: "D", text: "environmentally-friendly" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích từ đồng nghĩa:</strong><br>
+                - <u>eco-friendly</u> (adj): thân thiện với môi trường.<br>
+                - A. climate-friendly: thân thiện với khí hậu.<br>
+                - B. unfriendly: không thân thiện.<br>
+                - C. kindly: tử tế.<br>
+                - D. environmentally-friendly: thân thiện với môi trường.<br>
+                -> Choose D: <strong>eco-friendly = environmentally-friendly</strong>.
+            `
+        },
+        {
+            id: "p1_q16",
+            text: "Question 16 (CLOSEST): Walking or cycling are activities that can help reduce your carbon footprint and your <u>impact</u> on the environment.",
+            options: [
+                { key: "A", text: "influence" },
+                { key: "B", text: "consequence" },
+                { key: "C", text: "effect" },
+                { key: "D", text: "circumstance" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích từ đồng nghĩa:</strong><br>
+                - <u>impact</u> (n): sự tác động/ảnh hưởng.<br>
+                - A. influence: sự ảnh hưởng đến hành vi người khác.<br>
+                - B. consequence: hậu quả tiêu cực.<br>
+                - C. effect: tác động/ảnh hưởng (đồng nghĩa trực tiếp).<br>
+                - D. circumstance: hoàn cảnh.<br>
+                -> Choose C: <strong>impact = effect</strong>.
+            `
+        },
+        {
+            id: "p1_q17",
+            text: "Question 17 (OPPOSITE): Small changes in your daily habits can help <u>reduce</u> the carbon footprint you produce.",
+            options: [
+                { key: "A", text: "lower" },
+                { key: "B", text: "increase" },
+                { key: "C", text: "rise" },
+                { key: "D", text: "improve" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích từ trái nghĩa:</strong><br>
+                - <u>reduce</u> (v): giảm bớt.<br>
+                - A. lower: làm giảm (đồng nghĩa) | B. increase: làm tăng (trái nghĩa - ngoại động từ đi với tân ngữ) | C. rise: tự tăng (nội động từ) | D. improve: cải thiện.<br>
+                -> Choose B: Trái nghĩa với 'reduce' là <strong>increase</strong>.
+            `
+        },
+        {
+            id: "p1_q18",
+            text: "Question 18 (OPPOSITE): Organic methods help reduce the use of <u>harmful</u> chemicals in food, which is better for our health.",
+            options: [
+                { key: "A", text: "fortunate" },
+                { key: "B", text: "profitable" },
+                { key: "C", text: "favorable" },
+                { key: "D", text: "helpful" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích từ trái nghĩa:</strong><br>
+                - <u>harmful</u> (adj): độc hại, có hại.<br>
+                - A. fortunate: may mắn | B. profitable: có lãi | C. favorable: thuận lợi | D. helpful: có lợi, có ích (trái nghĩa trong ngữ cảnh này).<br>
+                -> Choose D: Trái nghĩa với 'harmful' là <strong>helpful</strong>.
+            `
+        }
+    ];
+
+    const questionsGroup3 = [
+        {
+            id: "p1_q19",
+            text: "Question 19: ...largely due to our reliance (19) ______ fossil fuels...",
+            options: [
+                { key: "A", text: "in" },
+                { key: "B", text: "on" },
+                { key: "C", text: "from" },
+                { key: "D", text: "at" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích ngữ pháp:</strong><br>
+                - Cụm từ cố định: <em>reliance on something</em> (sự phụ thuộc vào cái gì).<br>
+                - Do đó chọn giới từ <strong>on</strong>.
+            `
+        },
+        {
+            id: "p1_q20",
+            text: "Question 20: ...adopting a more sustainable lifestyle (20) ______ is a necessary practice...",
+            options: [
+                { key: "A", text: "when" },
+                { key: "B", text: "who" },
+                { key: "C", text: "which" },
+                { key: "D", text: "whom" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích đại từ quan hệ:</strong><br>
+                - Đại từ quan hệ thay thế cho danh từ chỉ vật/việc "lifestyle" và làm chủ ngữ -> Dùng <strong>which</strong>.
+            `
+        },
+        {
+            id: "p1_q21",
+            text: "Question 21: ...you may notice (21) ______ increasing number of eco-friendly...",
+            options: [
+                { key: "A", text: "an" },
+                { key: "B", text: "the" },
+                { key: "C", text: "a" },
+                { key: "D", text: "zero article" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích mạo từ:</strong><br>
+                - Cụm từ: <em>an increasing number of + N</em> (ngày càng nhiều cái gì).<br>
+                - Từ 'increasing' bắt đầu bằng nguyên âm /ɪ/ -> Dùng mạo từ <strong>an</strong>.
+            `
+        },
+        {
+            id: "p1_q22",
+            text: "Question 22: ...eco-friendly (22) ______ to traditional products...",
+            options: [
+                { key: "A", text: "living" },
+                { key: "B", text: "energy" },
+                { key: "C", text: "supplies" },
+                { key: "D", text: "alternatives" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích từ vựng:</strong><br>
+                - A. living: cuộc sống | B. energy: năng lượng | C. supplies: nguồn cung | D. alternatives: các sự lựa chọn/sản phẩm thay thế.<br>
+                - Cấu trúc: <em>alternatives to something</em> (các sản phẩm thay thế cho cái gì).<br>
+                <strong>Dịch nghĩa:</strong> "...các sản phẩm thay thế thân thiện với môi trường cho các sản phẩm truyền thống..."
+            `
+        },
+        {
+            id: "p1_q23",
+            text: "Question 23: ...and (23) ______ a conscious effort to reduce waste...",
+            options: [
+                { key: "A", text: "getting" },
+                { key: "B", text: "taking" },
+                { key: "C", text: "making" },
+                { key: "D", text: "doing" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích Collocation:</strong><br>
+                - Cụm từ cố định: <em>make a conscious effort</em> (thực hiện một nỗ lực có ý thức).<br>
+                - Do đó chọn động từ <strong>making</strong>.
+            `
+        }
+    ];
+
+    const questionsGroup4 = [
+        {
+            id: "p1_q24",
+            text: "Question 24: Which of the following can be the best title for the passage?",
+            options: [
+                { key: "A", text: "Natural Resources" },
+                { key: "B", text: "The Benefits of Green Living" },
+                { key: "C", text: "The Effects of Climate Change" },
+                { key: "D", text: "A Healthy Environment" }
+            ],
+            correct: "B",
+            explanation: `
+                <strong>Phân tích ý chính bài đọc:</strong><br>
+                - Cuối đoạn 1 bài viết nêu rõ: "Therefore, two main environmental benefits can be realised with greener living." (Do đó, hai lợi ích môi trường chính có thể đạt được với lối sống xanh hơn).<br>
+                - Đoạn 2 giải thích lợi ích 1 (First...), đoạn 3 giải thích lợi ích 2 (Second...).<br>
+                -> Tiêu đề chuẩn nhất là: <strong>The Benefits of Green Living</strong> (Những lợi ích của lối sống xanh).
+            `
+        },
+        {
+            id: "p1_q25",
+            text: "Question 25: The word 'depleted' in paragraph 2 is OPPOSITE in meaning to ______.",
+            options: [
+                { key: "A", text: "run out" },
+                { key: "B", text: "picked up" },
+                { key: "C", text: "filled in" },
+                { key: "D", text: "searched for" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích từ trái nghĩa:</strong><br>
+                - <u>depleted</u> (adj/v): cạn kiệt.<br>
+                - A. run out: cạn kiệt (đồng nghĩa) | B. picked up: nhặt lên | C. filled in / filled up: lấp đầy, làm đầy (trái nghĩa với cạn kiệt) | D. searched for: tìm kiếm.<br>
+                -> Trái nghĩa với 'cạn kiệt' là <strong>filled in</strong> (được làm đầy).
+            `
+        },
+        {
+            id: "p1_q26",
+            text: "Question 26: The word 'This' in paragraph 3 refers to ______.",
+            options: [
+                { key: "A", text: "the activity of releasing carbon dioxide and causing air pollution" },
+                { key: "B", text: "the harmful effect of climate change" },
+                { key: "C", text: "the reliance on fossil fuels" },
+                { key: "D", text: "green living" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích từ chỉ định 'This':</strong><br>
+                - Đọc câu trước đó trong bài: "People continue to release carbon dioxide into the atmosphere, further polluting the air. <strong>This</strong> is leading to dramatic changes in temperatures..."<br>
+                - 'This' đại diện cho việc con người liên tục thải khí CO2 và làm ô nhiễm không khí.
+            `
+        },
+        {
+            id: "p1_q27",
+            text: "Question 27: According to paragraph 2, natural resources ______.",
+            options: [
+                { key: "A", text: "are not precious to human on Earth" },
+                { key: "B", text: "are hard to be conserved" },
+                { key: "C", text: "has been used more and more since 1970s" },
+                { key: "D", text: "can not disappear" }
+            ],
+            correct: "C",
+            explanation: `
+                <strong>Phân tích chi tiết bài đọc:</strong><br>
+                - Trích dẫn câu trong đoạn 2: "...it is estimated that the use of natural resources has more than tripled since 1970." (việc sử dụng tài nguyên thiên nhiên đã tăng hơn gấp ba lần kể từ năm 1970).<br>
+                - Điều này có nghĩa là tài nguyên thiên nhiên đã và đang được sử dụng ngày càng nhiều kể từ những năm 1970.
+            `
+        },
+        {
+            id: "p1_q28",
+            text: "Question 28: Which of the following is NOT TRUE according to the passage?",
+            options: [
+                { key: "A", text: "The well-being of the environment is as important as that of each person" },
+                { key: "B", text: "Climate change is a problem because of the reliance on fossil fuels" },
+                { key: "C", text: "Carbon dioxide contributes to air pollution" },
+                { key: "D", text: "Climate change can only be stopped by actions of governments" }
+            ],
+            correct: "D",
+            explanation: `
+                <strong>Phân tích câu KHÔNG đúng:</strong><br>
+                - Đoạn cuối bài đọc khẳng định: "For <strong>every person who makes an effort</strong> to reduce his or her carbon footprint... climate change can begin to become less of a concern." (Mỗi cá nhân nỗ lực giảm lượng phát thải carbon thì biến đổi khí hậu sẽ giảm bớt lo ngại).<br>
+                - Đáp án D bảo "CHỈ có thể dừng lại nhờ hành động của chính phủ" là SAI.
+            `
+        }
+    ];
+
+    const questionsPart2 = [
+        {
+            id: "p2_q1",
+            text: "Question 1 (Tự luận - Viết lại câu): You / turn / appliances / when / in use / save / energy.",
+            options: [
+                { key: "A", text: "You should turn off appliances when not in use to save energy." },
+                { key: "B", text: "You turn on appliances when in use for save energy." },
+                { key: "C", text: "You should turn appliances when in use saving energy." },
+                { key: "D", text: "You must turn on appliances when in use to save energy." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Dịch nghĩa chuẩn:</strong> "Bạn nên tắt các thiết bị khi không sử dụng để tiết kiệm năng lượng."<br>
+                - Cấu trúc: <em>should turn off + N + when not in use + to V-bare</em>.<br>
+                -> Đáp án A là câu hoàn chỉnh và chuẩn xác nhất.
+            `
+        },
+        {
+            id: "p2_q2",
+            text: "Question 2 (Tự luận - Viết lại câu): Cut / plastic / products / reduce / plastic pollution.",
+            options: [
+                { key: "A", text: "Cutting down on plastic products helps reduce plastic pollution." },
+                { key: "B", text: "Cut off plastic products for reduce plastic pollution." },
+                { key: "C", text: "To cut plastic products reducing plastic pollution." },
+                { key: "D", text: "Cut up plastic products to reduce plastic pollution." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Cấu trúc:</strong> <em>cut down on something</em> (cắt giảm cái gì).<br>
+                - Sử dụng danh động từ V-ing làm chủ ngữ: <em>Cutting down on plastic products helps reduce plastic pollution.</em> (Việc cắt giảm sản phẩm nhựa giúp giảm ô nhiễm nhựa).
+            `
+        },
+        {
+            id: "p2_q3",
+            text: "Question 3 (Tự luận - Viết lại câu): Green / living / be / adopt / people / world.",
+            options: [
+                { key: "A", text: "Green living is being adopted by people all over the world." },
+                { key: "B", text: "Green living is adopt by people in world." },
+                { key: "C", text: "Green living adopts by people over world." },
+                { key: "D", text: "Green living was adopted with people world." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích bị động tiếp diễn:</strong><br>
+                - Cấu trúc: <em>S + is/am/are + being + V3/ed + by + O</em>.<br>
+                - Dịch nghĩa: "Lối sống xanh đang được áp dụng bởi con người trên khắp thế giới."
+            `
+        },
+        {
+            id: "p2_q4",
+            text: "Question 4 (Tự luận - Viết lại câu): Parents / have / teach / their children / be honest and show respect to older people / an early age.",
+            options: [
+                { key: "A", text: "Parents have to teach their children to be honest and show respect to older people from an early age." },
+                { key: "B", text: "Parents have teach their children being honest and show respect to older people at an early age." },
+                { key: "C", text: "Parents should have teach their children be honest and show respect to older people from early age." },
+                { key: "D", text: "Parents have to teaching their children to be honest and show respect to older people in an early age." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích cấu trúc:</strong><br>
+                - 1. <em>have to + V-bare</em> (phải làm gì).<br>
+                - 2. <em>teach somebody to do something</em> (dạy ai làm gì).<br>
+                - 3. Cụm từ: <em>from an early age</em> (từ khi còn nhỏ).<br>
+                -> Ghép chính xác câu A.
+            `
+        },
+        {
+            id: "p2_q5",
+            text: "Question 5 (Word Form): What are the ______ benefits for our country as a member of this international organization? (ECONOMY)",
+            options: [
+                { key: "A", text: "economic" },
+                { key: "B", text: "economical" },
+                { key: "C", text: "economically" },
+                { key: "D", text: "economics" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích từ loại:</strong><br>
+                - Đứng trước danh từ 'benefits' cần một <strong>Tính từ (adj)</strong>.<br>
+                - A. economic (adj): thuộc về kinh tế (economic benefits: các lợi ích kinh tế).<br>
+                - B. economical (adj): tiết kiệm.<br>
+                -> Chọn A.
+            `
+        },
+        {
+            id: "p2_q6",
+            text: "Question 6 (Word Form): I would like to express my ______ to everyone for their hard work. (GRATEFUL)",
+            options: [
+                { key: "A", text: "gratitude" },
+                { key: "B", text: "gratefully" },
+                { key: "C", text: "gratefulness" },
+                { key: "D", text: "ingratitude" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích từ loại:</strong><br>
+                - Sau tính từ sở hữu 'my' cần một <strong>Danh từ (n)</strong>.<br>
+                - Tính từ 'GRATEFUL' -> Danh từ chuẩn là <strong>gratitude</strong> (lòng biết ơn).<br>
+                - Cụm từ: <em>express my gratitude to somebody</em> (bày tỏ lòng biết ơn tới ai).
+            `
+        },
+        {
+            id: "p2_q7",
+            text: "Question 7 (Word Form): He needs all the support and ______ he can get. (ENCOURAGE)",
+            options: [
+                { key: "A", text: "encouragement" },
+                { key: "B", text: "encouraging" },
+                { key: "C", text: "encouraged" },
+                { key: "D", text: "encourage" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích từ loại:</strong><br>
+                - Đứng sau liên từ 'and' nối cùng loại với danh từ 'support' -> Cần một <strong>Danh từ (n)</strong>.<br>
+                - Động từ 'ENCOURAGE' -> Danh từ là <strong>encouragement</strong> (sự động viên, khuyến khích).
+            `
+        },
+        {
+            id: "p2_q8",
+            text: "Question 8 (Word Form): To be fair, we need to divide the tasks ______. (EQUAL)",
+            options: [
+                { key: "A", text: "equally" },
+                { key: "B", text: "equality" },
+                { key: "C", text: "equal" },
+                { key: "D", text: "equalize" }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Phân tích từ loại:</strong><br>
+                - Bổ nghĩa cho động từ thường 'divide' cần một <strong>Trạng từ (adv)</strong>.<br>
+                - Tính từ 'EQUAL' -> Trạng từ tương ứng là <strong>equally</strong> (một cách bình đẳng/đều nhau).
+            `
+        },
+        {
+            id: "p2_q9",
+            text: "Question 9 (Sắp xếp từ): is / at the moment. / The / improving / financial / company's / situation",
+            options: [
+                { key: "A", text: "The company's financial situation is improving at the moment." },
+                { key: "B", text: "The financial situation company's is improving at the moment." },
+                { key: "C", text: "At the moment the company's situation financial is improving." },
+                { key: "D", text: "Company's financial situation is improving at the moment The." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Chủ ngữ:</strong> The company's financial situation (Tình hình tài chính của công ty).<br>
+                <strong>Động từ:</strong> is improving (đang cải thiện).<br>
+                <strong>Trạng ngữ:</strong> at the moment.<br>
+                -> Ghép chuẩn: "The company's financial situation is improving at the moment."
+            `
+        },
+        {
+            id: "p2_q10",
+            text: "Question 10 (Sắp xếp từ): retiring / Linda / is / of / thinking / early / she/ anymore./ because / isn't / happy / at work",
+            options: [
+                { key: "A", text: "Linda is thinking of retiring early because she isn't happy at work anymore." },
+                { key: "B", text: "Linda is thinking early of retiring because she isn't happy at work anymore." },
+                { key: "C", text: "Because she isn't happy at work Linda is thinking of retiring early anymore." },
+                { key: "D", text: "Linda thinking of is retiring early because she isn't anymore happy at work." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Cấu trúc:</strong> <em>think of doing something</em> (nghĩ đến việc làm gì).<br>
+                - Mệnh đề 1: Linda is thinking of retiring early.<br>
+                - Mệnh đề 2: because she isn't happy at work anymore.<br>
+                -> Ghép chính xác câu A.
+            `
+        },
+        {
+            id: "p2_q11",
+            text: "Question 11 (Sắp xếp từ): oil supplies / Some experts / say / will / the next 20 years./ start / to fall / within / that /",
+            options: [
+                { key: "A", text: "Some experts say that oil supplies will start to fall within the next 20 years." },
+                { key: "B", text: "Some experts say oil supplies that will start to fall within the next 20 years." },
+                { key: "C", text: "Within the next 20 years oil supplies say that some experts will start to fall." },
+                { key: "D", text: "Some experts will start to fall that oil supplies say within the next 20 years." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Mẫu câu:</strong> <em>Some experts say that + S + V</em>.<br>
+                - S = oil supplies (nguồn cung dầu mỏ).<br>
+                - V = will start to fall (sẽ bắt đầu giảm).<br>
+                - Time = within the next 20 years (trong vòng 20 năm tới).
+            `
+        },
+        {
+            id: "p2_q12",
+            text: "Question 12 (Sắp xếp từ): achievements / in / information / technology / and /will / made /be/ scientists. / More / by",
+            options: [
+                { key: "A", text: "More achievements in information technology will be made by scientists." },
+                { key: "B", text: "More scientists will be made achievements in information technology." },
+                { key: "C", text: "Achievements in information technology will made be by more scientists." },
+                { key: "D", text: "More achievements will made by scientists in information technology." }
+            ],
+            correct: "A",
+            explanation: `
+                <strong>Bị động tương lai đơn:</strong> <em>will be + V3/ed + by + O</em>.<br>
+                - Subject = More achievements in information technology.<br>
+                - Verb = will be made.<br>
+                - Agent = by scientists.<br>
+                -> Đáp án A hoàn tất chính xác.
+            `
+        }
+    ];
+
+    let userAnswers = {};
+
+    function renderQuizSection(questions, containerId) {
+        const container = document.getElementById(containerId);
+        let html = '';
+
+        questions.forEach((q) => {
+            const shuffledOptions = shuffleArray(q.options);
+
+            html += `
+                <div class="question-card" id="card_${q.id}">
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(opt => `
+                            <button class="btn-option" 
+                                    id="btn_${q.id}_${opt.key}" 
+                                    onclick="selectAnswer('${q.id}', '${opt.key}', '${q.correct}')">
+                                <strong>${opt.key}.</strong>${opt.text}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="explanation-box" id="exp_${q.id}">
+                        <div class="explanation-title">💡 GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG:</div>
+                        <div>${q.explanation}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function selectAnswer(qId, selectedKey, correctKey) {
+        const card = document.getElementById(`card_${qId}`);
+        const expBox = document.getElementById(`exp_${qId}`);
+        const allButtons = card.querySelectorAll('.btn-option');
+
+        allButtons.forEach(btn => btn.disabled = true);
+        userAnswers[qId] = selectedKey;
+
+        if (selectedKey === correctKey) {
+            const btn = document.getElementById(`btn_${qId}_${selectedKey}`);
+            btn.classList.add('correct');
+            playSound('correct');
+            confetti({
+                particleCount: 45,
+                spread: 60,
+                origin: { y: 0.8 }
+            });
+        } else {
+            const btn = document.getElementById(`btn_${qId}_${selectedKey}`);
+            const correctBtn = document.getElementById(`btn_${qId}_${correctKey}`);
+            btn.classList.add('wrong');
+            card.classList.add('shake');
+            if (correctBtn) correctBtn.classList.add('correct');
+            playSound('wrong');
+            setTimeout(() => card.classList.remove('shake'), 500);
+        }
+
+        expBox.style.display = 'block';
+    }
+
+    function submitExam() {
+        const allQuestions = [
+            ...questionsGroup1, 
+            ...questionsGroup2, 
+            ...questionsGroup3, 
+            ...questionsGroup4, 
+            ...questionsPart2
+        ];
+        const totalQuestions = allQuestions.length;
+        let score = 0;
+
+        allQuestions.forEach(q => {
+            if (userAnswers[q.id] === q.correct) score++;
+        });
+
+        const percentage = (score / totalQuestions) * 100;
+        let feedback = "";
+
+        if (percentage < 50) {
+            feedback = "Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! 💪";
+        } else if (percentage <= 80) {
+            feedback = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! 🌟";
+        } else {
+            feedback = "Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha! 🎉🏆";
+            confetti({
+                particleCount: 180,
+                spread: 100,
+                origin: { y: 0.6 }
+            });
+        }
+
+        document.getElementById('scoreText').innerText = `${score} / ${totalQuestions} (${Math.round(percentage)}%)`;
+        document.getElementById('feedbackText').innerText = feedback;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('resultModal').style.display = 'none';
+    }
+
+    window.onload = function() {
+        renderQuizSection(questionsGroup1, 'quiz-part1-1');
+        renderQuizSection(questionsGroup2, 'quiz-part1-2');
+        renderQuizSection(questionsGroup3, 'quiz-part1-3');
+        renderQuizSection(questionsGroup4, 'quiz-part1-4');
+        renderQuizSection(questionsPart2, 'quiz-part2');
+    };
+</script>
+
+</body>
+</html>
